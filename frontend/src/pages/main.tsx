@@ -1,4 +1,4 @@
-import { useCurrentAccount, useSuiClientQuery, useSuiClient } from "@mysten/dapp-kit";
+import { useCurrentAccount, useSuiClient } from "@mysten/dapp-kit";
 import { Container } from "@radix-ui/themes";
 import { PetComponent } from "../components/ui/PetComponent";
 import { AdoptPetComponent } from "../components/ui/AdoptPet";
@@ -6,27 +6,29 @@ import { queryState } from "@/lib/contracts";
 import { useState, useEffect } from "react";
 import { Pet } from "../type";
 import type { State } from "../type";
+import { useQuery } from "@tanstack/react-query";
 
 function Main() {
     const account = useCurrentAccount();
     const [userPet, setUserPet] = useState<Pet | null>(null);
     const suiClient = useSuiClient();
 
-    const { data: stateData } = useSuiClientQuery<State>(
-        ['user-pet', account?.address],
-        () => queryState(suiClient),
-        {
-            enabled: !!account,
-        }
-    );
+    const { data: stateData } = useQuery({
+        queryKey: ['user-pet', account?.address],
+        queryFn: () => queryState(suiClient),
+        enabled: !!account,
+    });
 
     useEffect(() => {
-        if (account && stateData && Array.isArray(stateData.users)) {
-            const currentUserPet = stateData.users.find(
-                (user) => user.owner === account.address
-            )?.pet;
-            if (currentUserPet) {
-                setUserPet(currentUserPet);
+        const state = stateData as State | undefined;
+        if (account && state && Array.isArray(state.users)) {
+            const currentUser = state.users.find(
+                (user: any) => user.owner === account.address
+            );
+            if (currentUser && typeof currentUser.pet === 'object') {
+                setUserPet(currentUser.pet as Pet);
+            } else {
+                setUserPet(null);
             }
         }
     }, [account, stateData]);
