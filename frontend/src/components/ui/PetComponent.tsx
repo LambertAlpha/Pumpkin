@@ -7,17 +7,7 @@ type PetComponentProps = {
     pet: Pet;
 }
 
-// 测试用例
-const testPet: Pet = {
-    id: "test-pet-1",
-    name: "小花",
-    owner: "0x123", 
-    hp: 100,
-    level: 1
-}
-
 export function PetComponent({ pet }: PetComponentProps) {
-    const [timerActive, setTimerActive] = useState(false);
     const [timeLeft, setTimeLeft] = useState(25 * 60); // 25分钟，以秒为单位
 
     // 格式化时间显示
@@ -25,12 +15,6 @@ export function PetComponent({ pet }: PetComponentProps) {
         const mins = Math.floor(seconds / 60);
         const secs = seconds % 60;
         return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
-    };
-
-    // 开始5分钟计时
-    const startShortTimer = () => {
-        setTimeLeft(5 * 60);
-        setTimerActive(true);
     };
 
     return (
@@ -73,7 +57,9 @@ export function PetComponent({ pet }: PetComponentProps) {
                     
                     <div className="grid grid-cols-2 gap-4 w-full">
                         <Button 
-                            onClick={startShortTimer}
+                            onClick={() => {
+                                setTimeLeft(5 * 60);
+                            }}
                             className="h-12"
                         >
                             5分钟
@@ -81,7 +67,6 @@ export function PetComponent({ pet }: PetComponentProps) {
                         <Button 
                             onClick={() => {
                                 setTimeLeft(15 * 60);
-                                setTimerActive(true);
                             }}
                             className="h-12"
                             variant="outline"
@@ -91,7 +76,6 @@ export function PetComponent({ pet }: PetComponentProps) {
                         <Button 
                             onClick={() => {
                                 setTimeLeft(25 * 60);
-                                setTimerActive(true);
                             }}
                             className="h-12"
                             variant="outline"
@@ -100,7 +84,7 @@ export function PetComponent({ pet }: PetComponentProps) {
                         </Button>
                         <Button 
                             onClick={() => {
-                                setTimerActive(false);
+                                setTimeLeft(0);
                             }}
                             className="h-12"
                             variant="outline"

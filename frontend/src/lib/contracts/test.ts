@@ -1,4 +1,4 @@
-import { queryState, createPet } from "./index";
+import { AdoptPet } from "./index";
 import { useSignAndExecuteTransaction } from "@mysten/dapp-kit";
 
 async function testContractCalls() {
@@ -13,7 +13,7 @@ async function testContractCalls() {
         // 2. 测试创建宠物
         console.log("测试创建宠物...");
         const petName = "TestPet";
-        const transaction = await createPet(petName);
+        const transaction = await AdoptPet(petName);
         
         // 执行交易
         try {

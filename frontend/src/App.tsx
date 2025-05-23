@@ -5,17 +5,16 @@ import NaviBar from "./components/ui/navi-bar";
 
 function App() {
   return (    
-    <Router>
-      <div className="bg-background">
-        <NaviBar />
-        <Routes>
-          <Route path="/" element={<Main />} />
-          <Route path="/user" element={<User />} />
-        </Routes>
-      </div>
-    </Router>
+      <Router>
+        <div className="bg-background">
+          <NaviBar />
+          <Routes>
+            <Route path="/" element={<Main />} />
+            <Route path="/user" element={<User />} />
+          </Routes>
+        </div>
+      </Router>
   );
 }
 
 export default App;
-

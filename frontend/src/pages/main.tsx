@@ -5,14 +5,15 @@ import { AdoptPetComponent } from "../components/ui/AdoptPet";
 import { queryState } from "@/lib/contracts";
 import { useState, useEffect } from "react";
 import { Pet } from "../type";
+import type { State } from "../type";
 
 function Main() {
     const account = useCurrentAccount();
     const [userPet, setUserPet] = useState<Pet | null>(null);
     const suiClient = useSuiClient();
 
-    const { data: stateData, refetch } = useSuiClientQuery(
-        'queryState',
+    const { data: stateData } = useSuiClientQuery<State>(
+        ['user-pet', account?.address],
         () => queryState(suiClient),
         {
             enabled: !!account,
@@ -20,11 +21,10 @@ function Main() {
     );
 
     useEffect(() => {
-        if (account && stateData) {
+        if (account && stateData && Array.isArray(stateData.users)) {
             const currentUserPet = stateData.users.find(
-                user => user.owner === account.address
+                (user) => user.owner === account.address
             )?.pet;
-            
             if (currentUserPet) {
                 setUserPet(currentUserPet);
             }

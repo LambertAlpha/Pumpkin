@@ -3,7 +3,7 @@ import { Container } from "@radix-ui/themes";
 import { PetComponent } from "../components/ui/PetComponent";
 import { queryState } from "@/lib/contracts";
 import { useState, useEffect } from "react";
-import { Pet, User } from "../type";
+import type { Pet, User } from "../type";
 
 function User() {
     const account = useCurrentAccount();

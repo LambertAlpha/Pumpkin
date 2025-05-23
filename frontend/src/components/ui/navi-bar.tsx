@@ -25,7 +25,7 @@ export default function NaviBar() {
         </nav>
       </Box>
 
-      <Box>
+      <Box className="flex items-center gap-2">
         <ConnectButton />
       </Box>
     </Flex>
