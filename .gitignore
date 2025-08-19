@@ -86,3 +86,21 @@ temp/
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# Sui Smart Contracts
+contracts/build/
+contracts/Move.lock
+*.env
+CONTRACTS.env
+contracts/CONTRACT_ADDRESSES.md
+
+# Wallet and Private Keys (NEVER COMMIT THESE!)
+wallet.key
+*.key
+sui_config/
+.sui/
+private_keys/
+
+# Contract deployment artifacts
+deployment_logs/
+*.deployment.json
