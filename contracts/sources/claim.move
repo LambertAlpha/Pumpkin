@@ -73,7 +73,7 @@ module pumpkin::claim {
     }
 
     /// Core function to claim rewards with verifier authorization
-    public entry fun claim_rewards(
+    public fun claim_rewards(
         pumpkin: &mut Pumpkin,
         stake_record: &mut StakeRecord,
         vault: &mut StakingVault,
@@ -125,6 +125,37 @@ module pumpkin::claim {
             amount_claimed: stake_amount,
             new_level: certificate.target_level,
         });
+    }
+
+    /// Entry wrapper for claim_rewards function
+    public entry fun claim_rewards_entry(
+        pumpkin: &mut Pumpkin,
+        stake_record: &mut StakeRecord,
+        vault: &mut StakingVault,
+        owner: address,
+        pumpkin_id: address,
+        target_level: u64,
+        valid_until: u64,
+        signature: vector<u8>,
+        verifier_cap: &VerifierCap,
+        ctx: &mut TxContext
+    ) {
+        let certificate = create_certificate(
+            owner,
+            pumpkin_id,
+            target_level,
+            valid_until,
+            signature
+        );
+        
+        claim_rewards(
+            pumpkin,
+            stake_record,
+            vault,
+            certificate,
+            verifier_cap,
+            ctx
+        )
     }
 
     /// Verify the certificate signature against verifier's public key

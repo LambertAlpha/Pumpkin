@@ -98,7 +98,7 @@ module pumpkin::treasury {
         
         // Extract SUI from vault
         let confiscated_coin = mint::extract_sui(vault, stake_amount, ctx);
-        let confiscated_balance = coin::into_balance(confiscated_coin);
+        let mut confiscated_balance = coin::into_balance(confiscated_coin);
         
         // Calculate distribution amounts
         let to_project = (stake_amount * PROJECT_SHARE_BP) / BASIS_POINTS_TOTAL;

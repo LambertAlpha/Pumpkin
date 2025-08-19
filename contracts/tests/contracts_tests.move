@@ -12,7 +12,7 @@ module pumpkin::pumpkin_tests {
         let admin = @0xA;
         let user = @0xB;
         
-        let scenario_val = test_scenario::begin(admin);
+        let mut scenario_val = test_scenario::begin(admin);
         let scenario = &mut scenario_val;
         
         // Test creating a new pumpkin
@@ -42,7 +42,7 @@ module pumpkin::pumpkin_tests {
         let admin = @0xA;
         let user = @0xB;
         
-        let scenario_val = test_scenario::begin(admin);
+        let mut scenario_val = test_scenario::begin(admin);
         let scenario = &mut scenario_val;
         
         // Initialize the mint module
@@ -54,7 +54,7 @@ module pumpkin::pumpkin_tests {
         // User stakes SUI and mints pumpkin
         test_scenario::next_tx(scenario, user);
         {
-            let vault = test_scenario::take_shared<mint::StakingVault>(scenario);
+            let mut vault = test_scenario::take_shared<mint::StakingVault>(scenario);
             let payment = coin::mint_for_testing<SUI>(1_000_000_000, test_scenario::ctx(scenario));
             
             mint::stake_and_mint(
@@ -85,7 +85,7 @@ module pumpkin::pumpkin_tests {
         let admin = @0xA;
         let user = @0xB;
         
-        let scenario_val = test_scenario::begin(admin);
+        let mut scenario_val = test_scenario::begin(admin);
         let scenario = &mut scenario_val;
         
         // Initialize
@@ -97,7 +97,7 @@ module pumpkin::pumpkin_tests {
         // Check initial vault state
         test_scenario::next_tx(scenario, user);
         {
-            let vault = test_scenario::take_shared<mint::StakingVault>(scenario);
+            let mut vault = test_scenario::take_shared<mint::StakingVault>(scenario);
             assert!(mint::vault_total_staked(&vault) == 0, 5);
             assert!(mint::vault_balance_value(&vault) == 0, 6);
             test_scenario::return_shared(vault);
@@ -106,7 +106,7 @@ module pumpkin::pumpkin_tests {
         // Stake SUI
         test_scenario::next_tx(scenario, user);
         {
-            let vault = test_scenario::take_shared<mint::StakingVault>(scenario);
+            let mut vault = test_scenario::take_shared<mint::StakingVault>(scenario);
             let payment = coin::mint_for_testing<SUI>(1_000_000_000, test_scenario::ctx(scenario));
             
             mint::stake_and_mint(
